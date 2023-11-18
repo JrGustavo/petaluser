@@ -28,7 +28,7 @@ func EjecutoLambda(ctx context.Context, event events.CognitoEventUserPoolsPostCo
 		return event, err
 	}
 
-	var datos models.Signup
+	var datos models.SignUp
 
 	for row, att := range event.Request.UserAttributes {
 		switch row {

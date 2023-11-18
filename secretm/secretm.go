@@ -9,8 +9,8 @@ import (
 	"github.com/petaluser/models"
 )
 
-func GetSecret(nombreSecret string) (models.SecretRDSJson, error) {
-	var datosSecret models.SecretRDSJson
+func GetSecret(nombreSecret string) (models.SecretRDSJSON, error) {
+	var datosSecret models.SecretRDSJSON
 	fmt.Println(" > Pido Secreto" + nombreSecret)
 
 	svc := secretsmanager.NewFromConfig(awsgo.Cfg)

@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var SecretModel models.SecretRDSJson
+var SecretModel models.SecretRDSJSON
 var err error
 var Db *sql.DB
 
@@ -36,7 +36,7 @@ func DbConnect() error {
 
 }
 
-func ConnStr(claves models.SecretRDSJson) string {
+func ConnStr(claves models.SecretRDSJSON) string {
 	var dbUser, authToken, dbEndpoint, dbName string
 	dbUser = claves.Username
 	authToken = claves.Password

@@ -2,12 +2,12 @@ package bd
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 	"github.com/petaluser/models"
 	"github.com/petaluser/tools"
 )
 
-func SignUp(sig models.Signup) error {
+func SignUp(sig models.SignUp) error {
 	fmt.Println("Comienza el registro")
 
 	err := DbConnect()
@@ -16,12 +16,16 @@ func SignUp(sig models.Signup) error {
 	}
 	defer Db.Close()
 
-	sentencia := "INSERT INTO users (User_Email, User_UUIDD, User_DateAdd) VALUES ('" + sig.UserEmail + "','" + sig.UserUUID + "','" + tools.FechaMySQL() + "')"
+	sentencia := "INSERT INTO users (User_Email, User_UUIDD, User_DateAdd) VALUES (?, ?, ?)"
 	fmt.Println(sentencia)
 
-	_, err = Db.Exec(sentencia)
+	// Usa consultas preparadas para evitar inyección de SQL
+	_, err = Db.Exec(sentencia, sig.UserEmail, sig.UserUUID, tools.FechaMySQL())
 	if err != nil {
-		fmt.Println(err.Error())
+		// Manejar el error de manera adecuada
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			fmt.Println("Error MySQL:", mysqlErr.Number, mysqlErr.Message)
+		}
 		return err
 	}
 
